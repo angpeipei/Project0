@@ -1,0 +1,38 @@
+<div class="list-view">
+    <table class="grid-view">
+        <tr>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>Due Date</th>
+            <th>Completed</th>
+            <th>Action</th>
+        </tr>
+        <% for(var i=0; i<data.length; i++){ %>
+            <tr>
+                <td>
+                    <%= data[i].title %>
+                </td>
+                <td>
+                    <%= data[i].category %>
+                </td>
+                <td>
+                    <%= data[i].Description %>
+                </td>
+                <td>
+                    <%= data[i].startDate %>
+                </td>
+                <td>
+                    <%= data[i].dueDate %>
+                </td>
+                <td>
+                    <% if (data[i].isCompleted) {%>
+                        Yes
+                    <%}%>
+                </td>                
+                <td>&nbsp;</td>
+            </tr>
+            <% } %>
+    </table>
+</div>

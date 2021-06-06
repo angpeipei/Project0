@@ -1,0 +1,217 @@
+/* Basic styling */
+$navbar-background: #222;
+$navbar-padding: 8px 20px;
+$navbar-menu-padding: 10px 5px;
+$navbar-font-color: white;
+$navbar-toggle-font-color: #999;
+$navbar-pri-button-background: teal;
+$navbar-pri-button-border: #006d6d;
+
+.nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: $navbar-padding;
+}
+
+nav {
+    background: $navbar-background;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.9); // shadow at the bottom of the nav box
+    position: fixed; // nav bar always at on top of the page
+    width: 100%;
+    z-index: 3; // nav bar will always on top of content when scroll
+
+    ul {
+        list-style-type: none; // remove list bullet
+        overflow: hidden;
+    }
+}
+
+.logo {
+    color: $navbar-font-color;
+    font-size: 20px;
+    text-decoration: none;
+    a:hover {
+        text-decoration: none;
+    }
+}
+
+.nav-button li,
+.menu li {
+    white-space: nowrap;
+    padding: $navbar-menu-padding;
+    a {
+        color: $navbar-font-color;
+        text-decoration: none;
+        width: 100%;
+        display: block; // allow hover outside the text
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+.button .secondary {
+    border-bottom: 1px #444 solid;
+}
+
+/* Mobile menu */
+.logo {
+    width: auto;
+    order: 0;
+}
+.toggle {
+    width: 40px;
+    text-align: right;
+    order: 0;
+}
+.nav-button {
+    width: 100%;
+    text-align: center;
+    order: 1;
+}
+.menu {
+    width: 100%;
+    text-align: center;
+    order: 2;
+}
+
+/* Navbar Toggle */
+.toggle {
+    cursor: pointer;
+    float: right;
+    font-size: 20px;
+    user-select: none;
+}
+.bars {
+    background: $navbar-toggle-font-color;
+    display: inline-block;
+    height: 2px;
+    position: relative;
+    transition: background 0.2s ease-out;
+    width: 18px;
+}
+.bars:before,
+.bars:after {
+    background: $navbar-toggle-font-color;
+    content: "";
+    display: block;
+    height: 100%;
+    position: absolute;
+    transition: all 0.2s ease-out;
+    width: 100%;
+}
+.bars:before {
+    top: 5px;
+}
+.bars:after {
+    top: -5px;
+}
+.toggle-btn {
+    display: none;
+}
+.menu {
+    max-height: 0;
+}
+.button {
+    max-height: 0;
+}
+.toggle-btn:checked ~ .menu {
+    max-height: 240px;
+}
+.toggle-btn:checked ~ .nav-button .button {
+    max-height: 240px;
+}
+.toggle-btn:checked ~ .toggle .bars {
+    background: transparent;
+}
+.toggle-btn:checked ~ .toggle .bars:before {
+    transform: rotate(-45deg);
+    top: 0;
+}
+.toggle-btn:checked ~ .toggle .bars:after {
+    transform: rotate(45deg);
+    top: 0;
+}
+
+/* Tablet menu */
+@media all and (min-width: 468px) {
+    .button {
+        max-height: 240px;
+    }
+    .logo {
+        flex: 1;
+    }
+    .toggle {
+        order: 2;
+    }
+    .nav-button {
+        flex: 1;
+        width: auto;
+        order: 1;
+    }
+    .nav-button .button {
+        display: flex;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        width: auto;
+
+        a {
+            width: auto;
+            padding: 7.5px 15px;
+            border: 1px #006d6d solid;
+            border-radius: 50em;
+            border-color: #005959;
+            &:hover {
+                text-decoration: none;
+                transition: all 0.25s;
+            }
+        }
+    }
+    .primary a {
+        background: $navbar-pri-button-background;
+        &:hover {
+            background: $navbar-pri-button-border;
+        }
+    }
+    .secondary a {
+        background: transparent;
+        &:hover {
+            color: $navbar-pri-button-background;
+        }
+    }
+    .button .secondary {
+        border-bottom: none;
+    }
+}
+
+/* Desktop menu*/
+@media all and (min-width: 768px) {
+    .toggle {
+        display: none;
+    }
+
+    .menu-item {
+        display: block;
+        width: 100%;
+    }
+    .logo {
+        flex: 2;
+        width: auto;
+        order: 0;
+    }
+    .menu {
+        flex: 2;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: auto;
+        order: 1;
+    }
+    .nav-button {
+        order: 2;
+    }
+    .menu {
+        max-height: 240px;
+    }
+}
