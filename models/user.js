@@ -12,7 +12,11 @@ const userSchema    = new mongoose.Schema({
         require: true,
         max: 255
     },
-    salt: String,   
+    // status: {
+    //     type: String,
+    //     require: true,
+    //     default: 'Active'
+    // },
     password: {
         type: String,
         require: true

@@ -1,38 +1,162 @@
-<div class="list-view">
-    <table class="grid-view">
-        <tr>
-            <th>Title</th>
-            <th>Category</th>
-            <th>Description</th>
-            <th>Start Date</th>
-            <th>Due Date</th>
-            <th>Completed</th>
-            <th>Action</th>
-        </tr>
-        <% for(var i=0; i<data.length; i++){ %>
+<div class="container">
+    <div class="row row-cols-sm-12">
+        <div class="col-auto">
+            <form method="POST" action="" class="row row-cols-sm-12">
+                <div class="input-group">
+                    <select class="form-select" style="max-width:200px"  name="category" name="category" aria-label="Category">
+                    <optgroup label="Category">
+                      <option value="Todo" selected>To do</option>
+                      <option value="To buy">To buy</option>
+                      <option value="Notes">Notes</option>
+                    </optgroup>
+                    </select>                
+                    <input type="title" class="form-control" style="max-width:400px" id="title" name="title" aria-label="title" required>
+                    <button class="icon-button input-button" type="submit">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i>
+                </button>
+                </div>
+            </form> 
+        </div>
+        <div class="col-auto position-relative"  style="margin-left:auto;">
+            <a class="btn btn-primary" href="/todo/new"><i class="fa fa-sticky-note" aria-hidden="true"></i>&nbsp;New todo</a>
+        </div>  
+    </div>
+    <p></p>
+    <table class="table table-light table-hover table-responsive-sm" style="width:100%">
+        <colgroup>
+            <col style="width:15%;">
+            <col style="width:25%;">
+            <col style="width:30%;">
+            <col style="width:10%;">
+            <col style="width:10%;">
+            <col style="width:5%;">
+            <col style="width:5%;">
+        </colgroup>
+        <thead class="table-dark">
             <tr>
-                <td>
-                    <%= data[i].title %>
-                </td>
-                <td>
-                    <%= data[i].category %>
-                </td>
-                <td>
-                    <%= data[i].Description %>
-                </td>
-                <td>
-                    <%= data[i].startDate %>
-                </td>
-                <td>
-                    <%= data[i].dueDate %>
-                </td>
-                <td>
-                    <% if (data[i].isCompleted) {%>
-                        Yes
-                    <%}%>
-                </td>                
-                <td>&nbsp;</td>
+                <th>Category</th>
+                <th>Title</th>
+                <th>Description</th>
+                <!-- 
+                <th>Start date</th>
+                <th>Due date</th> 
+                -->
+                <th>Completed?</th>
+                <th>Action</th>
             </tr>
-            <% } %>
+        </thead>
+        <tbody>
+
+            <% for(var i=0; i<data.length; i++){ %>
+                <tr  
+                <% if (data[i].isCompleted) { %>
+                    class='completed'
+                <% } %>
+                >
+                    <td>
+                        <span id="category">
+                            <%= data[i].category %>
+                        </span>
+                    </td>
+                     <td>
+                        <span id="title">
+                            <%= data[i].title %>
+                        </span>
+                    </td>
+                   <td>
+                        <span id="description">
+                            <%= data[i].Description %>
+                        </span>
+                    </td>                    
+                    <!-- <td>
+                        <span id="startDate">
+                            <%= data[i].startDate %>
+                        </span>
+                    </td>                     
+                    <td>
+                        <span id="dueDate">
+                            <%= data[i].dueDate %>
+                        </span>
+                    </td> -->
+                    <td>
+                        <div class="action-button">
+                            <a id="complete<%=data[i]._id%>" class="complete icon-button" data-doc="<%=data[i]._id%>">
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                            </a>
+                        </div>
+
+                    </td>                                          
+                    <td>
+                        <div class="action-button">
+                            <a class="icon-button" href="/todo/<%=data[i]._id%>">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <a id="del<%=data[i]._id%>" class="delete icon-button" data-doc="<%=data[i]._id%>">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+        </tbody>
     </table>
+
+    <script>
+        const trashcan = document.querySelectorAll('a.delete');
+        for (let i = 0; i < trashcan.length; i++) {
+            trashcan[i].addEventListener('click', (e) => {
+                const item = e.target;
+                const endpoint = `/todo/${item.dataset.doc}`;
+                const row = item.closest('tr');
+
+                fetch(endpoint, {
+                    method: 'DELETE'
+                })
+                .then((response) => {
+                    row.classList.add("fall");
+
+                    row.addEventListener("transitionend", e => {
+                        row.remove();
+                    });                
+                })
+                .catch(err => console.log(err));
+
+
+
+            })
+        }
+
+        
+        const complete = document.querySelectorAll('a.complete');
+        for (let i = 0; i < complete.length; i++) {
+            complete[i].addEventListener('click', (e) => {
+                const item = e.target;
+                const item_id = item.dataset.doc;
+                const endpoint = `/todo/${item_id}`;
+                const row = item.closest('tr');
+                row.classList.toggle("completed");
+
+                let body = {_id:item_id};
+                if (row.classList.length > 0)
+                    if (row.classList[0] === "completed")
+                        body.isCompleted = 'on';
+
+                fetch(endpoint, {
+                    method: 'PUT',
+                    headers: {
+                    'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                })
+                    .then((response) => {
+                        //row.classList.toggle("completed");
+                    })
+                    .catch(err => console.log(err));
+
+
+
+            })
+        }
+    </script>
+</div>
 </div>

@@ -7,13 +7,6 @@ $navbar-toggle-font-color: #999;
 $navbar-pri-button-background: teal;
 $navbar-pri-button-border: #006d6d;
 
-.nav-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    padding: $navbar-padding;
-}
 
 nav {
     background: $navbar-background;
@@ -28,17 +21,25 @@ nav {
     }
 }
 
+.my-nav-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: $navbar-padding;
+}
+
 .logo {
     color: $navbar-font-color;
-    font-size: 20px;
+    font-size: 40px;
     text-decoration: none;
     a:hover {
         text-decoration: none;
     }
 }
 
-.nav-button li,
-.menu li {
+.my-nav-button li,
+.my-nav-menu li {
     white-space: nowrap;
     padding: $navbar-menu-padding;
     a {
@@ -51,7 +52,7 @@ nav {
         }
     }
 }
-.button .secondary {
+.nav-link-button.secondary {
     border-bottom: 1px #444 solid;
 }
 
@@ -65,12 +66,14 @@ nav {
     text-align: right;
     order: 0;
 }
-.nav-button {
+.my-nav-button {
     width: 100%;
     text-align: center;
     order: 1;
+    flex-direction: row-reverse;
 }
-.menu {
+.my-nav-menu {
+    margin-left:auto;
     width: 100%;
     text-align: center;
     order: 2;
@@ -110,16 +113,16 @@ nav {
 .toggle-btn {
     display: none;
 }
-.menu {
+.my-nav-menu {
     max-height: 0;
 }
-.button {
+.my-nav-button {
     max-height: 0;
 }
-.toggle-btn:checked ~ .menu {
+.toggle-btn:checked ~ .my-nav-menu {
     max-height: 240px;
 }
-.toggle-btn:checked ~ .nav-button .button {
+.toggle-btn:checked ~ .my-nav-button {
     max-height: 240px;
 }
 .toggle-btn:checked ~ .toggle .bars {
@@ -136,7 +139,7 @@ nav {
 
 /* Tablet menu */
 @media all and (min-width: 468px) {
-    .button {
+    .my-nav-button {
         max-height: 240px;
     }
     .logo {
@@ -145,73 +148,88 @@ nav {
     .toggle {
         order: 2;
     }
-    .nav-button {
+    .my-nav-button {
         flex: 1;
         width: auto;
         order: 1;
     }
-    .nav-button .button {
+    .my-nav-button {
         display: flex;
+        flex-direction: row;
         justify-content: flex-end;
         flex-wrap: nowrap;
         width: auto;
-
         a {
             width: auto;
             padding: 7.5px 15px;
-            border: 1px #006d6d solid;
-            border-radius: 50em;
-            border-color: #005959;
-            &:hover {
-                text-decoration: none;
-                transition: all 0.25s;
-            }
         }
     }
-    .primary a {
+    .nav-link-button a{
+        border: 1px #006d6d solid;
+        border-radius: 50em;
+        border-color: #005959;
+        text-decoration: none;
+        &:hover {
+            text-decoration: none;
+            transition: all 0.25s;
+        }       
+    }
+
+    .nav-link-button.primary a{
         background: $navbar-pri-button-background;
         &:hover {
             background: $navbar-pri-button-border;
+            text-decoration: none;
         }
     }
-    .secondary a {
+
+    .nav-link-button.secondary a {
         background: transparent;
         &:hover {
             color: $navbar-pri-button-background;
+            text-decoration: none;
         }
     }
-    .button .secondary {
-        border-bottom: none;
+    .nav-link-button.secondary {
+        border-bottom: none;        
     }
 }
 
 /* Desktop menu*/
 @media all and (min-width: 768px) {
+    // .my-nav-container {
+    //     justify-content: flex-end;
+    // }
+
     .toggle {
         display: none;
     }
 
-    .menu-item {
+    .my-menu-item {
         display: block;
         width: 100%;
     }
     .logo {
-        flex: 2;
-        width: auto;
+        width: 50px;
         order: 0;
     }
-    .menu {
+    .my-nav-menu {
+        margin-left:auto;
+
         flex: 2;
         display: flex;
-        justify-content: space-around;
+        justify-content: flex-start;
         align-items: center;
         width: auto;
         order: 1;
     }
-    .nav-button {
+    .my-nav-button {
+        display:flex;
+        flex-direction: row-reverse;
+        justify-content: flex-start;
         order: 2;
     }
-    .menu {
+    .my-nav-menu {
         max-height: 240px;
     }
 }

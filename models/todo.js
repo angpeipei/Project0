@@ -10,11 +10,11 @@ const todoSchema    = new mongoose.Schema({
         require:true,
         max:255
     },
-    Category : {
+    category : {
         type:String,
         max:255
     },
-    Description : {
+    description : {
         type:String
     },
     startDate : {

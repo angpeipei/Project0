@@ -1,26 +1,97 @@
-<div class="list-view">
-    <table class="grid-view">
-        <tr>
-            <th>Name</th>
-            <th>Email address</th>
-            <th>Admin</th>
-            <th>Action</th>
-        </tr>
-        <% for(var i=0; i<data.length; i++){ %>
+<div class="container-fluid">
+    <%if (isAdmin) { %>
+    <div><a class="btn btn-primary" href="/users/register"><i class="fa fa-user-circle" aria-hidden="true"></i>&nbsp;New user</a></div>
+    <% } %>
+    <p></p>
+    <table class="table table-light table-hover table-responsive-sm">
+        <colgroup>
+            <col style="width:5%;">
+            <col style="width:45%;">
+            <col style="width:45%;">
+            <col style="width:5%;">
+        </colgroup>
+        <thead class="table-dark">
             <tr>
-                <td>
-                    <%= data[i].name %>
-                </td>
-                <td>
-                    <%= data[i].email %>
-                </td>
-                <td>
-                    <% if (data[i].isAdmin) {%>
-                        Yes
-                    <%}%>
-                </td>                
-                <td>&nbsp;</td>
+                <th>Admin?</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Action</th>
             </tr>
-            <% } %>
+        </thead>
+        <tbody>
+
+            <% for(var i=0; i<data.length; i++){ %>
+                <tr>
+                    <td style="text-align: right;">
+                        <span id="isadmin">
+                            <% if (data[i].isAdmin) { %>
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                <% } %>
+                        </span>
+                    </td>
+                    <td>
+                        <span id="name">
+                            <%= data[i].name %>
+                        </span>
+                    </td>
+                    <td>
+                        <span id="email">
+                            <%= data[i].email %>
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-button">
+                            <div style="min-width:35px">
+                            <%if (isAdmin || userId === data[i]._id.toString()) { %>
+                            <a class="icon-button" href="/users/<%=data[i]._id%>">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </a>
+                            <% } %>
+                            </div>
+                            <div style="min-width:35px">
+                            <% if (isAdmin && userId !== data[i]._id.toString()) { %>
+                            <a id="del<%=data[i]._id%>" class="delete icon-button" data-doc="<%=data[i]._id%>">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                            <% } %>
+                            </div>
+                            <!-- &nbsp;
+                            <form method="POST" action="users/<%=data[i]._id%>?_method=DELETE">
+                                <button class="icon-button" type="submit">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </form> -->
+                        </div>
+                    </td>
+                </tr>
+                <% } %>
+        </tbody>
     </table>
+
+    <script>
+        const trashcan = document.querySelectorAll('a.delete');
+        for (let i = 0; i < trashcan.length; i++) {
+            trashcan[i].addEventListener('click', (e) => {
+                const item = e.target;
+                const endpoint = `/users/${item.dataset.doc}`;
+                const row = item.closest('tr');
+
+                fetch(endpoint, {
+                    method: 'DELETE'
+                })
+                .then((response) => {
+                    row.classList.add("fall");
+
+                    row.addEventListener("transitionend", e => {
+                        row.remove();
+                    });                
+                })
+                .catch(err => console.log(err));
+
+
+
+            })
+        }
+    </script>
+</div>
 </div>

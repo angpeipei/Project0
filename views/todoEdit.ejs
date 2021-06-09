@@ -1,0 +1,40 @@
+<div class="container">
+    <form method="post" action="/todo" class="row g-3">
+    <h1 class="h3 mb-3 fw-normal">Edit todo / notes</h1>
+
+    <div class="input-group mb-3 col-md-12">
+        <div class="col-md-1 ml-0">
+        <select class="form-select" name="category" name="category" aria-label="Category">
+          <optgroup label="Category">
+            <option value="Todo" <% if ( data.category==='Todo'){ %> selected <% } %>>To do</option>
+            <option value="To buy" <% if ( data.category==='To buy'){ %> selected <% } %>>To buy</option>
+            <option value="Notes" <% if ( data.category==='Notes'){ %> selected <% } %>>Notes</option>
+          </optgroup>
+        </select>
+    </div>
+    <div class="col-md-11 mr-0">
+        <input type="title" class="form-control" id="title" name="title" value="<%=data.title%>" aria-label="title" required>
+        </div>
+      </div>
+    <div class="form-group mb-3 col-md-6">
+      <label for="startdate">Start date</label>
+      <input type="startdate" class="form-control" id="startdate" name="startdate" value="<%=data.startdate%>" placeholder="dd/mm/yyyy">
+    </div>
+    <div class="form-group mb-3 col-md-6">
+        <label for="duedate">Due date</label>
+        <input type="duedate" class="form-control" id="duedate" name="duedate" value="<%=data.duedate%>" placeholder="dd/mm/yyyy">
+    </div>    
+    <div class="form-group mb-3  col-md-12">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" name="description" value="<%=data.description%>" placeholder="description"></textarea>
+    </div>
+
+    <div class="form-check form-switch m-3 col-md-12">    
+        <label class="form-check-label" for="isCompleted">Is Completed</label>
+        <input type="checkbox" class="form-check-input" id="isCompleted" name="isCompleted" <% if ( data.isCompleted){ %> checked <% } %>>
+    </div>   
+    <div class="col-12">  
+      <button class="btn btn-primary" type="submit">Update</button>
+    </div> 
+  </form>
+</div>

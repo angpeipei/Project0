@@ -1,15 +1,17 @@
-<main class="form-signin">
-  <form method="post" action="\login">
+<div class="container">
+  <form method="POST" action="\login">
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-    <div class="form-floating">
-      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+    <div class="form-group mb-3">
       <label for="email">Email address</label>
+      <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
     </div>
-    <div class="form-floating">
-      <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+    <div class="form-group mb-3">
       <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <div>
+      <button class="btn btn-primary" type="submit">Sign in</button>
+    </div>
   </form>
-</main>
+</div>
