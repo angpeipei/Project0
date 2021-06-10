@@ -1,5 +1,5 @@
 <div class="container">
-    <form method="post" action="/todo" class="row g-3">
+    <form method="post" action="<%=data.id%>?_method=PUT" class="row g-3">
     <h1 class="h3 mb-3 fw-normal">Edit todo / notes</h1>
 
     <div class="input-group mb-3 col-md-12">
@@ -26,7 +26,7 @@
     </div>    
     <div class="form-group mb-3  col-md-12">
       <label for="description">Description</label>
-      <textarea class="form-control" id="description" name="description" value="<%=data.description%>" placeholder="description"></textarea>
+      <textarea class="form-control" id="description" name="description" placeholder="description"><%=data.description%></textarea>
     </div>
 
     <div class="form-check form-switch m-3 col-md-12">    
