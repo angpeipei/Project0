@@ -22,7 +22,7 @@ const createTodo = async (req, res) => {
 }
 
 const getTodo = async (req, res) => {
-    todoModel.find({_id:req.params.id, userid:res.locals.userId},(err, data) => {
+    todoModel.findOne({_id:req.params.id, userid:res.locals.userId},(err, data) => {
         console.log(data)
         responseHandler.renderResponse(req, res, err, data, 'todoEdit',{title:'Update todo / notes'})
         //responseHandler.sendResponse(req, res,err,data)
@@ -41,8 +41,8 @@ const updateTodo = async (req, res) => {
         {new: true},
         (err, data) => 
         {
-            console.log(data)
-            res.json(`Todo ${req.params.id} has been updated`)
+            res.redirect('/todo')
+            //res.json(`Todo ${req.params.id} has been updated`)
             //responseHandler.sendResponse(req, res,err,data))
     })
 }
