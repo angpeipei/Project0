@@ -43,6 +43,11 @@ main-footer {
   justify-self: flex-end;
 }
 
+.img-profile {
+  max-height: 300px;
+  max-width: 300px;
+}
+
 .grid {
   display: flex;
   flex-direction: column;

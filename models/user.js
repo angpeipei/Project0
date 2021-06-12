@@ -24,7 +24,11 @@ const userSchema    = new mongoose.Schema({
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    photoFilename:{
+        type: String
     }
+
 })
 
 module.exports = connection.model('User', userSchema) 

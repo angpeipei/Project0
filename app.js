@@ -12,6 +12,7 @@ const ejslayout     = require('express-ejs-layouts')
 const auth          = require('./routes/authMiddleware')
 const userRoute     = require('./routes/user')
 const todoRoute     = require('./routes/todo')
+const fileUploadRoute = require('./routes/fileUpload')
 
 const ejs           = require('ejs')
 const resHandler    = require('./lib/responseHandler')
@@ -68,6 +69,7 @@ app.get('/logout', (req,res)=> {
     res.send('logout success')
 })
 
+app.use('/upload', fileUploadRoute)
 app.use('/users', userRoute)
 app.use('/todo', auth.isLoggedIn, todoRoute)
 

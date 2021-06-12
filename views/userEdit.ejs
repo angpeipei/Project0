@@ -1,25 +1,35 @@
-<div class="container">
-    <form method="POST" action="<%=data.id%>?_method=PUT">
+ <div class="container">
+  
+  <form method="POST" action="<%=data.id%>?_method=PUT"  enctype="multipart/form-data" class="row g-3">
     <h1 class="h3 mb-3 fw-normal">Edit user</h1>
 
-    <div class="form-group mb-3">
-      <label for="name">Name</label>
-      <input type="name" class="form-control" id="name" name="name" value="<%=data.name%>" required>
+    <div class="form-group mb-3 col-md-3">
+      <img src="/upload/image/<%=(data.photoFilename?data.photoFilename:'noImage')%>" class="img-profile">
     </div>
-    <div class="form-group mb-3">
-      <label for="email">Email address</label>
-      <input type="email" class="form-control" id="email" name="email" value="<%=data.email%>" required>
-    </div>
+    <div class="form-group mb-3 col-md-9">
+      <div class="form-group mb-3">
+        <label for="name">Upload new photo</label>
+        <input class="form-control form-control-sm" id="file" name="file" type="file">
+      </div>
+      <div class="form-group mb-3">
+        <label for="name">Name</label>
+        <input type="name" class="form-control" id="name" name="name" value="<%=data.name%>" required>
+      </div>
+      <div class="form-group mb-3">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" value="<%=data.email%>" required>
+      </div>
 
-    <% if (isAuthenticated) { %>
-        <%if (isAdmin && userId !== data.id) { %>
-    <div class="form-check form-switch mb-3">
-      <label class="form-check-label" for="isAdmin">Is administrator</label>
-      <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin" <% if ( data.isAdmin){ %> checked <% } %> >
+      <% if (isAuthenticated) { %>
+          <%if (isAdmin && userId !== data.id) { %>
+      <div class="form-check form-switch mb-3">
+        <label class="form-check-label" for="isAdmin">Is administrator</label>
+        <input type="checkbox" class="form-check-input" id="isAdmin" name="isAdmin" <% if ( data.isAdmin){ %> checked <% } %> >
+      </div>
+          <% } %>   
+      <% } %>
     </div>
-        <% } %>   
-    <% } %>
-    <div>  
+  <div>  
       <button class="btn btn-primary" type="submit">Update</button>
     </div> 
   </form>

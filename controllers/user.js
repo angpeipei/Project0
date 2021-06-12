@@ -1,5 +1,4 @@
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+
 const userModel = require('../models/user')
 const responseHandler = require('../lib/responseHandler.js')
 const passwordHandler = require('../lib/passwordUtils.js')
@@ -20,22 +19,28 @@ const listUsers = async (req, res) => {
 const getUser = async (req, res) => {
     userModel.findById(req.params.id, 
         (err, data) => {
-            //responseHandler.sendResponse(req, res,err,data)
-            responseHandler.renderResponse(req, res,err,data, 'userEdit',{title:'Update user'})
-        })
+        //responseHandler.sendResponse(req, res,err,data)
+        responseHandler.renderResponse(req, res,err, data, 'userEdit',{title:'Update user'})
+    })
 }
 
 const createUser = async (req, res) => {
     const emailExisted = await userModel.findOne({email:req.body.email})
     if (emailExisted) {return res.status(400).send('Email already existed')}
     const hashPassword = await passwordHandler.hashPassword(req.body.password)
+    
+    const newData = {
+        name: req.body.name,
+        email: req.body.email,
+        password: hashPassword,
+        isAdmin: (req.body.isAdmin?true:false)
+    }
+    if (req.file){
+        newData.photoFilename = req.file.filename
+    }
+    console.log(newData)
     userModel.create(
-        {
-            name: req.body.name,
-            email: req.body.email,
-            password: hashPassword,
-            isAdmin: (req.body.isAdmin?true:false)
-        },
+        newData,
         (err, data) => {
             if (req.isAuthenticated())
                 res.redirect('/users')
@@ -56,10 +61,12 @@ const updateUser = async (req, res) => {
         name: req.body.name,
         email: req.body.email
     }
+    if (req.file){
+        newData.photoFilename = req.file.filename
+    }
     if ( res.locals.userId !== req.params.id){
         newData.isAdmin = (req.body.isAdmin?true:false)
     }
-
     userModel.findByIdAndUpdate(req.params.id, 
         newData, 
         {new: true},
