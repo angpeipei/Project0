@@ -4,12 +4,19 @@
     <h1 class="h3 mb-3 fw-normal">Edit user</h1>
 
     <div class="form-group mb-3 col-md-3">
+      <div>
       <img src="/upload/image/<%=(data.photoFilename?data.photoFilename:'noImage')%>" class="img-profile">
+      </div>
+      <div>
+      <a id="photoDel" class="delete icon-button" data-doc="<%=data.photoFilename%>">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+      </a>
+    </div>
     </div>
     <div class="form-group mb-3 col-md-9">
       <div class="form-group mb-3">
         <label for="name">Upload new photo</label>
-        <input class="form-control form-control-sm" id="file" name="file" type="file">
+        <input class="form-control form-control-sm" id="file" name="file" type="file" onchange="readURL(this);">
       </div>
       <div class="form-group mb-3">
         <label for="name">Name</label>
@@ -17,7 +24,10 @@
       </div>
       <div class="form-group mb-3">
         <label for="email">Email address</label>
-        <input type="email" class="form-control" id="email" name="email" value="<%=data.email%>" required>
+        <input type="email" class="form-control email" id="email" name="email" value="<%=data.email%>" required>
+        <div class="invalid-feedback">
+          Please provide a valid email
+        </div>
       </div>
 
       <% if (isAuthenticated) { %>
@@ -28,9 +38,58 @@
       </div>
           <% } %>   
       <% } %>
-    </div>
-  <div>  
-      <button class="btn btn-primary" type="submit">Update</button>
-    </div> 
-  </form>
-</div>
+      <div>  
+          <button class="btn btn-primary" type="submit">Update</button> 
+          <button class="btn btn-danger" type="submit" formaction="<%=data.id%>?_method=DELETE">Delete</button>
+      </div>     
+  </div>
+
+ </form>
+
+  
+  </div>
+  <script>
+
+    const emailinput = document.querySelector('input.email');
+    emailinput.addEventListener("focusout", (e) => {
+      const item = e.target;
+      var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      if (!item.value.match(validRegex)) {
+        console.log("Invalid email address!");
+        item.classList.add("is-invalid");
+      }
+      else
+        item.classList.remove("is-invalid");
+    });
+
+    const trashcan = document.querySelectorAll('a.delete');
+    for (let i = 0; i < trashcan.length; i++) {
+        trashcan[i].addEventListener('click', (e) => {
+            const item = e.target;
+            const endpoint = `/upload/delete/${item.dataset.doc}`;
+
+            fetch(endpoint, {
+                method: 'DELETE'
+            })
+            .then((response) => {
+              console.log('endpoint');
+            
+            })
+            .catch(err => console.log(err));
+        })
+    }
+
+
+    function readURL(input) {
+         if (input.files && input.files[0]) {
+            var reader = new FileReader();
+     
+            reader.onload = function (e) {
+              const img = document.querySelector('img.img-profile');   
+              img.src = e.target.result;     
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    </script>

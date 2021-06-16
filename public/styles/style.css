@@ -375,7 +375,10 @@ nav ul {
   opacity: 0.5;
 }
 .completed .icon-button {
-  color: grey;
+  color: #04ce25;
+}
+.completed td {
+  background: #bcf8c6;
 }
 
 .fa {

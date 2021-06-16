@@ -51,7 +51,8 @@ const deleteTodo = async (req, res) => {
     todoModel.findOneAndRemove(
         {_id:req.params.id, userid:res.locals.userId}, 
         (err, data) => {
-            res.json(`Todo ${req.params.id} has been deleted`)
+            res.redirect('/todo')
+            //res.json(`Todo ${req.params.id} has been deleted`)
             //responseHandler.sendResponse(req, res,err,data)
     })
 }

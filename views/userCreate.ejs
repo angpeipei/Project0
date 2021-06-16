@@ -1,30 +1,39 @@
     <div class="container">
-      <form method="post" action="" enctype="multipart/form-data">
+      <form method="post" action="" enctype="multipart/form-data"  class="row g-3 needs-validation">
       <h1 class="h3 mb-3 fw-normal">Register new user</h1>
 
       <div class="form-group mb-3 col-md-3">
-        
+        <img id="photo" name="photo" src="/image/noImage.png" class="img-profile">
       </div>
       <div class="form-group mb-3 col-md-9">
         <div class="form-group mb-3">
           <label for="name">Upload photo</label>
-          <input class="form-control form-control-sm" id="file" name="file" type="file">
+          <input class="form-control form-control-sm" id="file" name="file" type="file" onchange="readURL(this);">
         </div>  
         <div class="form-group mb-3">
           <label for="name">Name</label>
           <input type="name" class="form-control" id="name" name="name" placeholder="Name" required>
+          <div class="invalid-feedback">
+            Please provide name
+          </div>
         </div>
         <div class="form-group mb-3">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" required>
+          <input type="email" class="form-control email" id="email" name="email" placeholder="name@example.com" required>
+          <div class="invalid-feedback">
+            Please provide a valid email
+          </div>
         </div>
         <div class="form-group mb-3">
           <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+          <input type="password" class="form-control pwd" id="password" name="password" placeholder="Password" required>
         </div>
         <div class="form-group mb-3">
-          <label for="password">Confirm Password</label>
-          <input type="password" class="form-control" id="password" name="confirmPassword" placeholder="Confirm Password"  required>
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" class="form-control pwd" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"  required>
+          <div class="invalid-feedback">
+            Passwords doesn't match
+          </div>
         </div>
         <% if (isAuthenticated) if (isAdmin){ %>
         <div class="form-check form-switch mb-3">
@@ -38,3 +47,72 @@
       </div> 
     </form>
   </div>
+  <script>
+    const emailinput = document.querySelector('input.email');
+    emailinput.addEventListener("focusout", (e) => {
+      const item = e.target;
+      var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      if (!item.value.match(validRegex)) {
+        console.log("Invalid email address!");
+        item.classList.add("is-invalid");
+      }
+      else
+        item.classList.remove("is-invalid");
+    });
+
+    const pwdinput = document.querySelectorAll('input.pwd');
+    if (pwdinput.length===2){
+      for (let i = 0; i < pwdinput.length; i++) {
+        pwdinput[i].addEventListener('focusout', function(){matchPassword(pwdinput[0], pwdinput[1])})
+      }
+    }
+    
+    function matchPassword(pw1, pw2) { 
+      if (pw1.value!=='' && pw2.value!=''){
+        if(pw1.value != pw2.value)  {   
+          console.log("Passwords did not match");  
+          pw2.setCustomValidity('Passwords did not match');
+          pw2.classList.add("is-invalid");
+        }  
+        else {
+          console.log("match");  
+          pw2.classList.remove("is-invalid");
+          pw2.setCustomValidity('');
+        }
+      }
+    }  
+
+    function readURL(input) {
+         if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+     
+            reader.onload = function (e) {
+              const img = document.querySelector('img.img-profile');   
+              img.src = e.target.result;     
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+  (function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+
+</script>

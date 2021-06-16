@@ -83,10 +83,14 @@ max-width:300px;
 }
 
 .completed {
+    
     text-decoration: line-through;
     opacity: 0.5;
     .icon-button{
-        color:grey;
+        color:rgb(4, 206, 37);
+    }
+    td{
+        background: rgb(188, 248, 198);
     }
   }
   

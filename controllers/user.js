@@ -81,9 +81,9 @@ const deleteUser = async (req, res) => {
     userModel.findByIdAndRemove(req.params.id,
         (err, data) => 
         {
-            res.json(`User ${req.params.id} has been deleted`)
-            //res.send(data)
+            //res.json(`User ${req.params.id} has been deleted`)
             //responseHandler.sendResponse(req, res,err,data)
+            res.redirect('/users')
         }
     )
 }
